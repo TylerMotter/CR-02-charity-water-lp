@@ -1,47 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Landing Page</title>
-    <link rel="stylesheet" href="styles.css">
+<!DOCTYPE html> <!-- Declares HTML5 so the browser uses standards mode -->
+<html lang="en"> <!-- Root element; lang aids accessibility/SEO -->
+<head> <!-- Metadata, title, font links, and CSS live in the head -->
+  <meta charset="UTF-8" /> <!-- Use UTF‑8 character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Make layout responsive on mobile -->
+  <title>Clean Water. Clear Results.</title> <!-- Browser tab title -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Hint: open early connection to Google Fonts API -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Hint: open early connection to font asset host; allow cross‑origin -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"> <!-- Load Inter font with weights 400/600/800 -->
+  <style> /* Start of embedded CSS */
+    :root{ /* Global CSS variables (custom properties) */
+      --brand-bg-dark:#fff7e1;   /* Page background cream */
+      --brand-text:#fff7e1;      /* Default strong white text for hero headings */
+      --brand-accent:#FFC907;    /* Brand yellow for CTAs/accents */
+      --brand-accent-hover:#FFC907; /* Slightly lighter yellow on hover */
+      --muted:#fff7e1;           /* Softer secondary text color */
+      --header-h:64px;           /* Fixed header height used for spacing */
+    }
+    *{box-sizing:border-box} /* Include padding/border inside set width/height */
+    html,body{height:100%} /* Make the page elements span full viewport height */
+    body{ /* Basic typography and background */
+      margin:0; /* Remove default body margin */
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; /* Font stack */
+      color:var(--brand-text); /* Default text color */
+      background:var(--brand-bg-dark); /* Page background color */
+      line-height:1.5; /* Comfortable line spacing */
+    }
+    a{color:inherit} /* Links use the surrounding text color */
+
+    /* ===================== TOP HEADER (kept) ===================== */
+    .site-header{ /* Fixed, translucent header bar */
+      position:fixed; inset:0 0 auto 0; height:var(--header-h); z-index:10; /* Pin to top; set height; layer above hero */
+      background:rgba(255, 255, 255, 0.384); /* Very faded black so hero shows through */
+      border-bottom:1px solid rgba(255,255,255,.08); /* Subtle divider line */
+      backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); /* Glassy blur on supported browsers */
+    }
+    .nav-wrap{ /* Center and space header contents */
+      height:100%; max-width:1150px; margin-inline:auto; /* Constrain width and center */
+      padding:0 clamp(1rem,4vw,3rem); /* Responsive side padding */
+      display:flex; align-items:center; justify-content:space-between; gap:1rem; /* Flex layout with spacing */
+    }
+    .brand{ display:inline-flex; align-items:center; text-decoration:none } /* Clickable brand area */
+    .brand-logo{ height:22px; width:auto; display:block } /* Logo image sizing */
+    @media (min-width:720px){ .brand-logo{ height:26px } } /* Slightly larger logo on wider screens */
+
+    .nav{ display:flex; align-items:center; gap:.75rem } /* Horizontal nav container */
+
+    /* CTA buttons – larger, white text */
+    .btn{ /* Reusable button styles for Sign Up / Donate */
+      appearance:none; border:0; cursor:pointer; text-decoration:none; /* Reset native button styles */
+      background:var(--brand-accent); color:#fff; font-weight:800; /* Yellow background, white bold text */
+      padding:1rem 1.5rem; border-radius:12px; box-shadow:0 10px 24px rgba(255,201,7,.30); /* Size, rounded corners, glow */
+      font-size:1.05rem; transition: transform .08s ease, background .2s ease, box-shadow .2s ease; /* Smooth interactions */
+      display:inline-flex; align-items:center; justify-content:center; /* Center label */
+    }
+    .btn:hover{ background:var(--brand-accent-hover); transform:translateY(-1px); box-shadow:0 12px 28px rgba(255,201,7,.38) } /* Hover lift + brighter */
+    .btn:active{ transform:translateY(0) scale(.99) } /* Pressed feedback */
+
+    /* ===================== HERO ===================== */
+    .hero{ /* Full‑viewport hero banner */
+      min-height:100svh; position:relative; display:grid; grid-template-columns:1fr; /* Fill screen; grid for easy centering */
+      place-items:center start; overflow:hidden; background:var(--brand-bg-dark); /* Align content; hide overflow */
+      padding-top: calc(var(--header-h) + clamp(.25rem,1.5vw,1rem)); /* Offset content below fixed header */
+      --hero-url:url('img/Screenshot 2025-09-03 174004.png'); /* Replace with your final hero image path */
+    }
+    .hero::before{ /* The actual background image layer */
+      content:""; position:absolute; inset:0; /* Cover the hero */
+      background-image:var(--hero-url); background-size:cover; background-position:70% center; /* Zoom/crop and shift focal point right */
+      filter:saturate(1.05) contrast(1.05); transform:scale(1.02); /* Slight pop + tiny zoom for drama */
+    }
+    .hero::after{ /* Dark gradient overlay for legibility (like mock) */
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(90deg,
+        rgba(0,0,0,.78) 0%, /* darkest at far left */
+        rgba(0,0,0,.62) 35%, /* softens mid‑left */
+        rgba(0,0,0,.20) 70%, /* much lighter near center */
+        rgba(0,0,0,.05) 100% /* almost clear on the right */
+      );
+    }
+
+    .hero-inner{ /* Text/CTA wrapper above overlays */
+      position:relative; z-index:1; width:100%; max-width:1150px; 
+      padding:clamp(1rem,4vw,3rem); padding-left:clamp(1rem,6vw,5rem); /* Extra left padding on wide screens */
+      display:flex; flex-direction:column; gap:1rem; /* Vertical stack with spacing */
+    }
+
+    .eyebrow{ /* Main headline (bigger, bold) */
+      margin:0; letter-spacing:.01em; font-weight:800; color:#fff; /* Strong white over overlay */
+      font-size:clamp(2.8rem,6.8vw,4.3rem); line-height:1.08; /* Responsive size and tight leading */
+    }
+    .headline{ /* Supporting headline (smaller) */
+      margin:.2rem 0 0; font-weight:600; color:var(--muted); /* Softer gray */
+      font-size:clamp(1.05rem,2.4vw,1.6rem); /* Responsive size */
+    }
+
+    .cta-row{ display:flex; align-items:center; gap:1rem; margin-top:1.25rem; flex-wrap:wrap } /* Row for CTA buttons with spacing */
+
+    /* ===================== SUPPORT SECTION ===================== */
+    .section{ background:#0e0e10; padding:clamp(2rem,6vw,4rem) clamp(1rem,4vw,3rem); border-top:1px solid rgba(255,255,255,.06) } /* Dark block with divider */
+    .section .wrap{ max-width:1150px; margin-inline:auto } /* Constrain width of section content */
+    .section-title{ margin:0 0 .25rem; font-size:1.6rem; color:#fff } /* Section heading */
+    .section-intro{ margin:.2rem 0 1rem; color:#cfcfcf; max-width:65ch } /* Intro paragraph with readable width */
+
+    .steps{ display:grid; grid-template-columns:1fr; gap:1.2rem; margin-top:1rem } /* Stack cards on mobile */
+    .step{ background:#121214; border:1px solid rgba(255,255,255,.06); border-radius:1rem; padding:1rem } /* Card look */
+    .step h3{ margin:.15rem 0 .35rem; font-size:1.05rem } /* Card title style */
+    .step p{ margin:0; color:#cfcfcf } /* Card body text */
+
+    @media (min-width:720px){ /* Responsive enhancements on wider screens */
+      :root{ --header-h:72px } /* Slightly taller header */
+      .steps{ grid-template-columns:repeat(3,1fr); gap:1rem } /* Three‑column steps grid */
+    }
+
+    footer{ background:#0b0b0c; color:#a9a9a9; border-top:1px solid rgba(255,255,255,.08); padding:1.2rem; text-align:center; font-size:.95rem } /* Footer styling */
+  </style> <!-- End of CSS -->
 </head>
-<body>
-    <!-- Hero Section: This is the main banner at the top of the page -->
-    <section class="hero">
-        <!-- Main headline -->
-        <h1>Clean Water for Everyone</h1>
-        <!-- Subheadline -->
-        <p>Join us in bringing safe, clean water to communities in need.</p>
-    </section>
+<body> <!-- Visible content starts -->
+  <!-- Top header with logo left & Sign Up right (single image logo you can replace) -->
+  <header class="site-header" role="navigation" aria-label="main navigation"> <!-- Nav landmark for assistive tech -->
+    <div class="nav-wrap"> <!-- Centers content and limits width -->
+      <a class="brand" href="#home" aria-label="Home"> <!-- Brand link scrolls to hero -->
+        <img class="brand-logo" src="img/cw_logo-2.png" alt="img/cw_logo-2.png"> <!-- Swap src for your real logo -->
+      </a>
+      <nav class="nav" aria-label="primary"> <!-- Primary navigation container -->
+        <a class="btn" href="#signup" aria-label="Sign up">Sign Up</a> <!-- Header CTA button -->
+      </nav>
+    </div>
+  </header>
 
-    <!-- Story Section: This tells the story of the nonprofit -->
-    <section class="story">
-        <h2>Our Story</h2>
-        <p>
-         
-    </section>
+  <header class="hero" id="home" role="banner"> <!-- Hero banner and scroll target -->
+    <div class="hero-inner"> <!-- Text + CTA wrapper on top of image/overlay -->
+      <h2 class="eyebrow">Clean Water. Clear Results.</h2> <!-- Big main headline -->
+      <h1 class="headline">Track The Project You Fund - Only One Tap Away</h1> <!-- Smaller supporting line -->
+      <div class="cta-row"> <!-- CTA container -->
+        <a class="btn" href="#donate" aria-label="Donate now">Donate</a> <!-- Primary hero CTA -->
+      </div>
+    </div>
+  </header>
 
-    <!-- Real-World Impact Story Section -->
-    <section class="impact-story">
-        <!-- Section headline -->
-        <h2>Real Impact: Meet Amina</h2>
-        <!-- Container for image and text -->
-        <div class="impact-content">
-            <!-- Impact image -->
-            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Amina smiling with clean water" class="impact-image">
-            <!-- Impact story text -->
-            <p>
-                Amina used to walk miles every day to collect water for her family. Thanks to your support, her village now has a clean water well. Amina can go to school and her family is healthier and happier.
-            </p>
+  <main> <!-- Main content landmark -->
+    <section class="section" id="how-it-works"> <!-- Explainer section -->
+      <div class="wrap"> <!-- Width‑constrained wrapper -->
+        <h2 class="section-title">How your gift becomes clean water</h2> <!-- Section heading -->
+        <p class="section-intro">We keep it simple and proof‑driven. No logins or apps required—track your specific project on a public map.</p> <!-- Intro copy -->
+        <div class="steps" role="list"> <!-- Cards grid (list semantics) -->
+          <article class="step" role="listitem"> <!-- Card 1 -->
+            <h3>1) Fund</h3> <!-- Card title -->
+            <p>Make a secure donation in seconds. 100% of your gift goes to water projects.</p> <!-- Card text -->
+          </article>
+          <article class="step" role="listitem"> <!-- Card 2 -->
+            <h3>2) Build</h3> <!-- Card title -->
+            <p>Local partners construct the project with community leadership.</p> <!-- Card text -->
+          </article>
+          <article class="step" role="listitem"> <!-- Card 3 -->
+            <h3>3) See Proof</h3> <!-- Card title -->
+            <p>We send updates with GPS, photos, and outcomes when water is flowing.</p> <!-- Card text -->
+          </article>
         </div>
+      </div>
     </section>
+  </main>
 
-    <!-- Call-to-Action Section: This encourages visitors to take action -->
-    <section class="call-to-action">
-        <h2>Make a Difference</h2>
-        <p>Your support can help save lives. Every donation brings us closer to a world with clean water for all.</p>
-        <a href="#" class="donate-button">Donate Now</a>
-    </section>
+  <footer> <!-- Footer with legal text/tagline -->
+    © <span id="y">2025</span> Your Organization • Proof‑driven clean water <!-- Span enables easy JS year update later -->
+  </footer>
 </body>
-</html>
+</html> <!-- End of document -->
